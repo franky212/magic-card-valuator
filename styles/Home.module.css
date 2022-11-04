@@ -2,14 +2,24 @@
   min-height: 100vh;
 }
 
+.search {
+  background-color: #333333;
+}
+
+.hero {
+  background: url("/hero.png");
+  background-size: cover;
+}
+
 .footer {
   display: flex;
   flex: 1;
   padding: 2rem 0;
-  border-top: 1px solid #eaeaea;
+  border-top: 1px solid #696969;
   justify-content: center;
   align-items: center;
 }
+
 
 .footer a {
   display: flex;
