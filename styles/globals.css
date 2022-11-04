@@ -12,11 +12,18 @@
   }
 }
 
+.modal {
+  background: #1d1d1c;
+  width: 100%;
+  height: 100%;
+}
+
 .spinner {
   display: inline-block;
   width: 80px;
   height: 80px;
 }
+
 .spinner:after {
   content: " ";
   display: block;
@@ -28,6 +35,7 @@
   border-color: #fff transparent #fff transparent;
   animation: lds-dual-ring 1.2s linear infinite;
 }
+
 @keyframes lds-dual-ring {
   0% {
     transform: rotate(0deg);
