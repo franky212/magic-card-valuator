@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, ReactNode } from 'react';
+import { useRef, useEffect, useState, ReactNode, MutableRefObject } from 'react';
 import { createPortal } from 'react-dom';
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
 }
 
 export default function ClientOnlyPortal({ children, selector }: Props) {
-  const ref = useRef();
+  const ref = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
