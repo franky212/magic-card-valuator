@@ -14,6 +14,7 @@ export default function Home() {
   const [cards, setCards] = useState<any>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const [queryParams, setQueryParams] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -22,14 +23,31 @@ export default function Home() {
     event.stopPropagation();
     setSearch(event.target.value);
     setLoading(true);
+    setError(false);
+    setErrorMessage("");
     if( event.target.value !== '' ) {
       await fetch(`https://api.scryfall.com/cards/search?q=${encodeURIComponent(event.target.value)}`)
       .then( res => res.json() )
-      .then( ({data}) => {
-        setCards(data);
-        setLoading(false);
+      .then( (res) => {
+        if( res.data ) {
+          setCards(res.data);
+          setLoading(false);
+        } else {
+          setLoading(false);
+          if( res.code === 'not_found' ) {
+            setErrorMessage(res.details);
+            setError(true);
+          }
+        }
       })
-      .catch( err => setError(err) );
+      .catch( err => {
+        console.log(err);
+        setLoading(false);
+        if( err.code === 'not_found' ) {
+          setErrorMessage(err.details);
+          setError(true);
+        }
+      } );
     }
   };
 
@@ -37,6 +55,10 @@ export default function Home() {
 
   useEffect(() => {
     invoke('greet', { name: 'World' }).then(console.log).catch(console.error);
+
+    return () => {
+      debounceSearch.cancel();
+    }
   }, []);
 
   return (
@@ -46,18 +68,19 @@ export default function Home() {
       </Head>
 
       <div className="absolute bg-red-800 w-96 bg-red-800 right-0 top-0 rounded-md mr-4 mt-4 p-4">
-        {error}
+        {errorMessage}
       </div>
 
       <div className={`bg-center bg-no-repeat flex justify-center items-center h-96 ${styles.hero}`}>
         <div className="container text-center">
           <label htmlFor="search" className="block mx-auto font-bold mb-2 text-2xl">Search for a Magic Card</label>
           <input id="search" name="search" type="text" className={`block w-full md:w-1/2 mx-auto rounded-full py-2 px-4 ${styles.search}`} onChange={debounceSearch} />
+          {error ? <p>{errorMessage}</p> : null}
         </div>
       </div>
 
       <main className="container my-4">
-        { cards.length === 0 || !cards ?
+        { cards.length === 0 ?
           <div>Please search for a card</div>
           :
           <section className="flex flex-wrap justify-center items-center">
