@@ -5,7 +5,7 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 import ClientOnlyPortal from "./ClientOnlyPortal";
-import { forwardRef, MutableRefObject, Ref, RefObject, useEffect } from "react";
+import { forwardRef, MutableRefObject, useEffect } from "react";
 
 interface ModalProps {
   modalOpen: boolean
