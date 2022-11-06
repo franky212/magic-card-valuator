@@ -42,6 +42,71 @@
   top: 0;
 }
 
+.search-placeholder .card-container > .card {
+  @apply rounded-md;
+  position: absolute; 
+  width: 120px;
+  height: auto;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.2s ease-in-out;
+}
+
+/*
+  CARD POSITIONING
+*/
+.search-placeholder .card:nth-child(1) {
+  left: 50%;
+  transform: rotate(-2deg) translate(-95%, -55%);
+}
+.search-placeholder .card:nth-child(2) {
+  left: 50%;
+  transform: rotate(-1.2deg) translate(-85%, -55%);
+}
+.search-placeholder .card:nth-child(3) {
+  left: 55%;
+  transform: rotate(-1deg) translate(-90%, -55%);
+}
+.search-placeholder .card:nth-child(4) {
+  left: 60%;
+  transform: translate(-85%, -53%);
+}
+.search-placeholder .card:nth-child(5) {
+  left: 65%;
+  transform: rotate(2deg) translate(-80%, -50%);
+}
+/*
+  END: CARD POSITIONING
+*/
+
+/*
+  CARD POSITIONING ON HOVER OF CONTAINER
+*/
+.card-container:hover .card:nth-child(1) {
+  left: 50%;
+  transform: rotate(-2deg) translate(-105%, -54%);
+}
+.card-container:hover .card:nth-child(2) {
+  left: 50%;
+  transform: rotate(-1.2deg) translate(-90%, -56%);
+}
+.card-container:hover .card:nth-child(3) {
+  left: 55%;
+  transform: rotate(-1deg) translate(-88%, -54%);
+}
+.card-container:hover .card:nth-child(4) {
+  left: 60%;
+  transform: translate(-82%, -55%);
+}
+.card-container:hover .card:nth-child(5) {
+  left: 65%;
+  transform: rotate(2deg) translate(-78%, -55%);
+}
+/*
+  END: CARD POSITIONING ON HOVER OF CONTAINER
+*/
+
 .spinner {
   display: inline-block;
   width: 80px;

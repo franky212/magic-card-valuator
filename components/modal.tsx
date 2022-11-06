@@ -1,3 +1,4 @@
+import { forwardRef, MutableRefObject, useEffect, useState } from "react";
 import Image from "next/image";
 import { Pie } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
@@ -5,7 +6,6 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 import ClientOnlyPortal from "./ClientOnlyPortal";
-import { forwardRef, MutableRefObject, useEffect } from "react";
 
 interface ModalProps {
   modalOpen: boolean
@@ -14,6 +14,7 @@ interface ModalProps {
 }
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, card}, ref) => {
+  const [randomQuote, setRandomQuote] = useState("");
   const data = {
     labels: ["Power", "Toughness"],
     datasets: [
@@ -34,6 +35,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, c
   };
 
   useEffect(() => {
+    fetch('https://api.quotable.io/random').then( res => res.json() ).then( quote => setRandomQuote(`${quote.content} — ${quote.author}`));
     if( (ref as MutableRefObject<HTMLDivElement>).current ) {
       (ref as MutableRefObject<HTMLDivElement>).current.scrollTo(0, 0);
     }
@@ -48,17 +50,17 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, c
         }`}
       >
         <>
-          <button
-            className="fixed flex justify-center items-center left-1/2 -translate-x-2/4 -translate-y-2/4 top-12 z-50 text-2xl"
-            aria-label="Close the modal"
-            title="Close Modal"
-            onClick={() => {
-              toggleModal(false);
-              document.body.classList.remove("prevent-scroll");
-            }}>
-            <span className="material-symbols-outlined modal-close">cancel</span>
-          </button>
           <div className="flex justify-center items-center relative">
+            <button
+              className={`fixed flex justify-center items-center left-1/2 -translate-x-2/4 -translate-y-2/4 ${ modalOpen ? "top-12" : "top-100" } z-50 text-2xl`}
+              aria-label="Close the modal"
+              title="Close Modal"
+              onClick={() => {
+                toggleModal(false);
+                document.body.classList.remove("prevent-scroll");
+              }}>
+              <span className="material-symbols-outlined modal-close">cancel</span>
+            </button>
             <div
               className="bg-cover bg-no-repeat blur-sm rounded-t-3xl w-full h-96"
               style={{
@@ -67,7 +69,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, c
               }}
             ></div>
             <p className="absolute font-bold italic w-1/2 text-center modal-flavor-text">
-              {card.flavor_text}
+              {card.flavor_text || randomQuote}
             </p>
           </div>
           <div className="container flex p-8">

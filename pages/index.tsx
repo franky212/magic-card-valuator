@@ -7,7 +7,19 @@ import { debounce } from 'lodash';
 
 import Modal from '../components/modal';
 
-export default function Home() {
+export async function getStaticProps(context) {
+
+  const res = await fetch(`https://api.scryfall.com/cards/search?q=${encodeURIComponent('knight')}`);
+  const {data} = await res.json();
+
+  return {
+    props: {
+      initialCards: data
+    }
+  }
+}
+
+export default function Home(props) {
 
   const [search, setSearch] = useState('');
   const [selectedCard, setSelectedCard] = useState({});
@@ -43,10 +55,8 @@ export default function Home() {
       .catch( err => {
         console.log(err);
         setLoading(false);
-        if( err.code === 'not_found' ) {
-          setErrorMessage(err.details);
-          setError(true);
-        }
+        setErrorMessage(err.details);
+        setError(true);
       } );
     }
   };
@@ -55,7 +65,6 @@ export default function Home() {
 
   useEffect(() => {
     invoke('greet', { name: 'World' }).then(console.log).catch(console.error);
-
     return () => {
       debounceSearch.cancel();
     }
@@ -80,7 +89,18 @@ export default function Home() {
 
       <main className="container my-4">
         { cards.length === 0 ?
-          <div>Please search for a card</div>
+          <div className="text-center search-placeholder">
+            <div className="card-container h-48 relative">
+              {props.initialCards.map( (card: any) => 
+              <Image
+                className="card" 
+                key={card.id} 
+                alt={`${card.name} Card`} src={card.image_uris?.png || "https://via.placeholder.com/150" } width={100} height={100} />
+              ).slice(0, 5)
+              }
+            </div>
+            <h2>Please search for a card!</h2>
+          </div>
           :
           <section className="flex flex-wrap justify-center items-center">
             {loading && search !== "" ? 
