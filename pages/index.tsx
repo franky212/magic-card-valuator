@@ -67,7 +67,7 @@ export default function Home() {
         <title>Magic Card Valuator</title>
       </Head>
 
-      <div className="absolute bg-red-800 w-96 bg-red-800 right-0 top-0 rounded-md mr-4 mt-4 p-4">
+      <div className={`fixed bg-red-800 w-96 bg-red-800 ${ error ? "right-0" : "left-full"} rounded-md mr-4 mt-4 p-8`}>
         {errorMessage}
       </div>
 
@@ -75,7 +75,6 @@ export default function Home() {
         <div className="container text-center">
           <label htmlFor="search" className="block mx-auto font-bold mb-2 text-2xl">Search for a Magic Card</label>
           <input id="search" name="search" type="text" className={`block w-full md:w-1/2 mx-auto rounded-full py-2 px-4 ${styles.search}`} onChange={debounceSearch} />
-          {error ? <p>{errorMessage}</p> : null}
         </div>
       </div>
 
@@ -92,7 +91,10 @@ export default function Home() {
                 setSelectedCard(card);
                 setModalOpen(true);
                 document.body.classList.toggle('prevent-scroll');
-              }} className="cursor-pointer hover:scale-110 transition-transform duration-150 ease-in-out w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" key={card.id} alt={`${card.name} Card`} src={card.image_uris?.png || "https://via.placeholder.com/150" } width={100} height={100} />
+              }} 
+                className="cursor-pointer hover:scale-110 transition-transform duration-150 ease-in-out w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" 
+                key={card.id} 
+                alt={`${card.name} Card`} src={card.image_uris?.png || "https://via.placeholder.com/150" } width={100} height={100} />
               )
             }
           </section>
