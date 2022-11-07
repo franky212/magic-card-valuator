@@ -36,7 +36,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, c
           "rgb(255, 221, 0)",
           "rgb(255, 221, 0)",
           "rgb(255, 255, 255)",
-        ]
+        ],
       }
     ]
   };
@@ -48,14 +48,13 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, c
         label: "Card Power and Toughness",
         data: [card.power, card.toughness],
         backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)"
+          "rgb(200, 16, 46)",
+          "rgb(0, 33, 71)"
         ],
         borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)"
-        ],
-        borderWidth: 1,
+          "rgba(200, 16, 46, 0.2)",
+          "rgba(0, 33, 71, 0.2)"
+        ]
       },
     ]
   };
@@ -65,7 +64,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, c
     if( (ref as MutableRefObject<HTMLDivElement>).current ) {
       (ref as MutableRefObject<HTMLDivElement>).current.scrollTo(0, 0);
     }
-  }, [card])
+  }, [card]);
 
   return (
     <ClientOnlyPortal selector="#modal-root">
@@ -98,8 +97,8 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, c
               {card.flavor_text || randomQuote}
             </p>
           </div>
-          <div className="container flex p-8">
-            <div className="w-1/2">
+          <div className="container md:flex p-8">
+            <div className="w-1/2 mx-auto md:w-1/2 lg:w-2/6">
               {card && (
                 <Image
                   className="w-full"
@@ -110,27 +109,38 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, c
                 />
               )}
             </div>
-            <div className="w-full pl-4">
+            <div className="md:w-1/2 lg:w-4/6 pl-4">
               <h1 className="text-3xl font-bold mb-4">{card?.name}</h1>
               <p className="whitespace-pre-line">{card.oracle_text}</p>
-              <div className="flex items-center">
-                <div className="w-2/6">
+              <div className="lg:flex items-center">
+                <div className="w-3/6 mx-auto lg:w-2/6">
                   <Pie
                     data={pieData}
                     options={{
                       plugins: {
                         legend: {
+                          labels: {
+                            color: 'white'
+                          },
                           onClick: (e) => null,
                         },
                       },
                     }}
                   />
                 </div>
-                <div className="w-4/6">
+                <div className="lg:w-4/6">
                   <p className="font-bold">Prices</p>
                   <Bar
                     data={barData}
                     options={{
+                      scales: {
+                        y: {
+                          ticks: { color: 'white'  }
+                        },
+                        x: {
+                          ticks: { color: 'white' }
+                        }
+                      },
                       plugins: {
                         legend: {
                           display: false

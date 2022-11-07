@@ -130,6 +130,12 @@ export default function Home(props) {
           </a>
       </footer>
 
+      <div title="Back to top" aria-label="Scrool back to the top of the page" className="rounded-full">
+        <span className="material-symbols-outlined">
+          arrow_upward
+        </span>
+      </div>
+
       <Modal ref={modalRef} modalOpen={modalOpen} toggleModal={setModalOpen} card={selectedCard} />
 
     </div>
