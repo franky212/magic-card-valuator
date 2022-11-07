@@ -1,9 +1,9 @@
 import { forwardRef, MutableRefObject, useEffect, useState } from "react";
 import Image from "next/image";
-import { Pie } from "react-chartjs-2";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Pie, Bar } from "react-chartjs-2";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from "chart.js";
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
 import ClientOnlyPortal from "./ClientOnlyPortal";
 
@@ -15,7 +15,33 @@ interface ModalProps {
 
 const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, card}, ref) => {
   const [randomQuote, setRandomQuote] = useState("");
-  const data = {
+
+  const barData = {
+    labels: ["USD", "USD Foil", "USD Etched", "Euro", "Euro Foil", "Tix"],
+    datasets: [
+      {
+        label: "Card Prices",
+        data: [
+          card.prices?.usd, 
+          card.prices?.usd_foil, 
+          card.prices?.usd_etched, 
+          card.prices?.eur, 
+          card.prices?.eur_foil, 
+          card.prices?.tix
+        ],
+        backgroundColor: [
+          "rgb(0,33,71)",
+          "rgb(0,33,71)",
+          "rgb(255, 221, 0)",
+          "rgb(255, 221, 0)",
+          "rgb(255, 221, 0)",
+          "rgb(255, 255, 255)",
+        ]
+      }
+    ]
+  };
+
+  const pieData = {
     labels: ["Power", "Toughness"],
     datasets: [
       {
@@ -87,17 +113,32 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, c
             <div className="w-full pl-4">
               <h1 className="text-3xl font-bold mb-4">{card?.name}</h1>
               <p className="whitespace-pre-line">{card.oracle_text}</p>
-              <div className="w-1/2">
-                <Pie
-                  data={data}
-                  options={{
-                    plugins: {
-                      legend: {
-                        onClick: (e) => null,
+              <div className="flex items-center">
+                <div className="w-2/6">
+                  <Pie
+                    data={pieData}
+                    options={{
+                      plugins: {
+                        legend: {
+                          onClick: (e) => null,
+                        },
                       },
-                    },
-                  }}
-                />
+                    }}
+                  />
+                </div>
+                <div className="w-4/6">
+                  <p className="font-bold">Prices</p>
+                  <Bar
+                    data={barData}
+                    options={{
+                      plugins: {
+                        legend: {
+                          display: false
+                        },
+                      },
+                    }}
+                  />
+                </div>
               </div>
             </div>
           </div>
