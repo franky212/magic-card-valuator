@@ -112,7 +112,7 @@ export default function Home(props) {
                 setModalOpen(true);
                 document.body.classList.toggle('prevent-scroll');
               }} 
-                className="cursor-pointer hover:scale-110 transition-transform duration-150 ease-in-out w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-2" 
+                className="cursor-pointer hover:scale-110 transition-transform duration-150 ease-in-out w-1/2 md:w-1/3 lg:w-1/4 p-2" 
                 key={card.id} 
                 alt={`${card.name} Card`} src={card.image_uris?.png || "https://via.placeholder.com/150" } width={100} height={100} />
               )

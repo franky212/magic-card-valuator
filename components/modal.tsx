@@ -60,7 +60,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>(({modalOpen, toggleModal, c
   };
 
   useEffect(() => {
-    fetch('https://api.quotable.io/random').then( res => res.json() ).then( quote => setRandomQuote(`${quote.content} — ${quote.author}`));
+    !card.flavor_text ? fetch('https://api.quotable.io/random').then( res => res.json() ).then( quote => setRandomQuote(`${quote.content} — ${quote.author}`)) : null;
     if( (ref as MutableRefObject<HTMLDivElement>).current ) {
       (ref as MutableRefObject<HTMLDivElement>).current.scrollTo(0, 0);
     }
