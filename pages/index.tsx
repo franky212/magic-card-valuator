@@ -112,7 +112,7 @@ export default function Home(props) {
                 <div className="spinner mx-auto"></div>
                 :
                 cardRow && cardRow.map( (row: any, i: number) => 
-                  <Transition className="flex">
+                  <Transition className="flex" key={`row-${i}`}>
                     {row.map( (card: any, i: number) => 
                       <Image onClick={() => {
                         setSelectedCard(card);
