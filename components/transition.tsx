@@ -20,7 +20,6 @@ const Transition: FC<TransitionProps> = ({ children, className }) => {
           y: 0, 
           opacity: 1
         }}
-        viewport={{ once: true }}
       >
         {children}
       </motion.div>
