@@ -107,12 +107,14 @@ export default function Home(props) {
               <h2>Please search for a card!</h2>
             </div>
             :
-            <section className="flex flex-wrap justify-center items-center">
+            <section className="justify-center items-center">
               {loading && search !== "" ? 
-                <div className="spinner mx-auto"></div>
+                <div className="flex justify-center items-center">
+                  <div className="spinner mx-auto"></div>
+                </div>
                 :
                 cardRow && cardRow.map( (row: any, i: number) => 
-                  <Transition className="flex" key={`row-${i}`}>
+                  <Transition className="flex flex-wrap w-full" key={`row-${i}`}>
                     {row.map( (card: any, i: number) => 
                       <Image onClick={() => {
                         setSelectedCard(card);
